@@ -6,9 +6,9 @@
 #include <math.h>
 #include <stdbool.h>
 
-void advent1(char *input);
-void advent2(char *input);
-int code(int start, char dir);
+void advent(char *input);
+int code1(int start, char dir);
+int code2(int start, char dir);
 
 int main()
 {
@@ -22,12 +22,12 @@ int main()
 	}
 	for(i=0; read(fd, in + (i * 256), 256); i++);
 	close(fd);
-	advent1(in);
+	advent(in);
 	free(in);
 	exit(0);
 }
 
-void advent1(char *input)
+void advent(char *input)
 {
 	char *instruction;
 	int state, i, length;
@@ -36,14 +36,14 @@ void advent1(char *input)
 	while(NULL != instruction){
 		length = strlen(instruction);
 		for(i=0; i < length; i++){
-			state = code(state, instruction[i]);
+			state = code2(state, instruction[i]);
 		}
-		printf("Next button is: %d\n", state); 
+		printf("Next button is: %x\n", state); 
 		instruction = strtok(NULL, "\n");
 	}
 }
 
-int code(int start, char dir)
+int code1(int start, char dir)
 {
 	int state;
 	state = start;
@@ -59,6 +59,50 @@ int code(int start, char dir)
 			break;
 		case 'R':
 			if(!(state % 3 == 0)) state += 1;
+	}
+	return state;
+}
+
+int code2(int start, char dir)
+{
+	int state;
+	state = start;
+	switch(dir){
+		case 'U':
+			if(state != 1 &&
+				state != 2 &&
+				state != 4 &&
+				state != 5 &&
+				state != 9){
+				
+				state -= 2;
+				if(state != 11 && state != 1) state -= 2;
+			}
+			break;
+		case 'D':
+			if(state != 5 &&
+				state != 9 &&
+				state != 10 &&
+				state != 12 &&
+				state != 13){
+				
+				state += 2;
+				if(state != 3 && state != 13) state += 2;
+			}
+			break;
+		case 'L':
+			if(state != 1 &&
+				state != 2 &&
+				state != 5 &&
+				state != 10 &&
+				state != 13) state -= 1;
+			break;
+		case 'R':
+			if(state != 1 &&
+				state != 4 &&
+				state != 9 &&
+				state != 12 &&
+				state != 13) state += 1;
 	}
 	return state;
 }
