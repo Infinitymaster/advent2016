@@ -65,10 +65,11 @@ void advent1(char *input)
 		if(!strcmp(test, hash)){
 			sum+= ID;
 			cipher(name, ID);
-			printf("%s with ID: %d\n\n", name, ID);
+			printf("%s with ID: %d\n\n", name, ID); // Delete this line for part 1
 		}
 		instruction = strtok(NULL, "\n");
 	}
+	//printf("%d is the sum\n", ID);
 	free(name);
 	free(hash);
 }
